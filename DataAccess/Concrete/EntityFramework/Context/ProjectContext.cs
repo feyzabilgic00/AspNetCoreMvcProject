@@ -14,5 +14,6 @@ namespace DataAccess.Concrete.EntityFramework.Context
         }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Admin> Admins { get; set; }
     }
 }

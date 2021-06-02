@@ -3,16 +3,12 @@ using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.EntityFramework.Context;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Project
 {
@@ -33,6 +29,13 @@ namespace Project
             services.AddSingleton<IDepartmentDal, EfDepartmentDal>();
             services.AddSingleton<IEmployeeService, EmployeeManager>();
             services.AddSingleton<IEmployeeDal, EfEmployeeDal>();
+            services.AddSingleton<IAdminService, AdminManager>();
+            services.AddSingleton<IAdminDal, EfAdminDal>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(x=> 
+                {
+                    x.LoginPath = "/Login/LoginPage/";
+                });
             services.AddControllersWithViews();
         }
 
@@ -53,7 +56,7 @@ namespace Project
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

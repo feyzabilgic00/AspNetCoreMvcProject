@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -10,13 +11,14 @@ using System.Threading.Tasks;
 
 namespace Project.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         IEmployeeService _employeeService;
         public EmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
-        }
+        }        
         public IActionResult Index()
         {
             var result=_employeeService.GetEmployeeDetails();
